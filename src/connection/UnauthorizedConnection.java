@@ -35,13 +35,6 @@ public class UnauthorizedConnection extends Connection {
 
         for(MessengerUser user : Main.users) {
             if(user.getUserName().equals(username)) {
-                try {
-                    out.write("OK\n".getBytes(StandardCharsets.UTF_8));
-                    out.flush();
-                } catch(IOException e) {
-                    throw new RuntimeException(e);
-                }
-
                 if(!user.getHashedPassword().equals(hashPassword(password))) {
                     try {
                         out.write("Invalid password\n".getBytes(StandardCharsets.UTF_8));
@@ -50,6 +43,15 @@ public class UnauthorizedConnection extends Connection {
                         throw new RuntimeException(e);
                     }
                     return;
+                }
+
+                try {
+                    out.write("OK\n".getBytes(StandardCharsets.UTF_8));
+                    out.flush();
+
+                    System.out.println("Успешно выполнен вход пользователя " + username);
+                } catch(IOException e) {
+                    throw new RuntimeException(e);
                 }
 
                 AuthorizedConnection authorizedConnection;
@@ -89,6 +91,8 @@ public class UnauthorizedConnection extends Connection {
         try {
             out.write("OK\n".getBytes(StandardCharsets.UTF_8));
             out.flush();
+
+            System.out.println("Успешно создан пользователь " + username);
         } catch(IOException e) {
             throw new RuntimeException(e);
         }
@@ -106,13 +110,20 @@ public class UnauthorizedConnection extends Connection {
 
         while(isRunning) {
             String command = scanner.next();
-            System.out.println(command);
+            String username;
+            String password;
 
             switch(command) {
                 case "createUser":
-                    String username = scanner.next();
-                    String password = scanner.next();
+                    username = scanner.next();
+                    password = scanner.next();
                     createUser(username, password);
+                    break;
+                case "login":
+                    username = scanner.next();
+                    password = scanner.next();
+                    login(username, password);
+                    break;
             }
         }
     }

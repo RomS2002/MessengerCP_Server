@@ -36,15 +36,15 @@ public class ConnectionListener extends Thread {
                     Connection conn = iter1.next();
                     if(!conn.isAlive()) {
                         unauthorizedConnections.remove(conn);
-                        System.out.println("Отключение клиента");
+                        System.out.println("Отключение неавторизованного клиента");
                     }
                 }
                 Iterator<AuthorizedConnection> iter2 = authorizedConnections.iterator();
                 while(iter2.hasNext()) {
-                    Connection conn = iter2.next();
+                    AuthorizedConnection conn = iter2.next();
                     if(!conn.isAlive()) {
                         authorizedConnections.remove(conn);
-                        System.out.println("Отключение клиента");
+                        System.out.println("Отключение пользователя " + conn.getUser().getUserName());
                     }
                 }
             }
