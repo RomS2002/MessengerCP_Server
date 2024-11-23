@@ -11,8 +11,17 @@ public class ServerConsole extends Thread {
 
         System.out.println("Сервер запущен по адресу: " + Main.address +
                 ":" + Main.port);
-        String str = scanner.nextLine();
-        System.out.println(str);
+
+        while(true) {
+            String str = scanner.nextLine();
+
+            if(str.equals("stop")) {
+                System.out.println("Остановка сервера...");
+                break;
+            } else {
+                System.err.println("Неизвестная команда");
+            }
+        }
         scanner.close();
     }
 }

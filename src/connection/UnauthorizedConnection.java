@@ -14,7 +14,7 @@ import java.util.Scanner;
 
 public class UnauthorizedConnection extends Connection {
 
-    private Scanner scanner = new Scanner(in);
+    private final Scanner scanner = new Scanner(in);
     private boolean isRunning = true;
 
     public UnauthorizedConnection(Socket socket) throws IOException {
@@ -64,6 +64,7 @@ public class UnauthorizedConnection extends Connection {
                 ConnectionListener.getAuthorizedConnections().add(authorizedConnection);
                 authorizedConnection.start();
                 isRunning = false;
+                return;
             }
         }
 
@@ -107,24 +108,32 @@ public class UnauthorizedConnection extends Connection {
 
     @Override
     public void run() {
+        try {
+            while(isRunning) {
+                String command = scanner.next();
+                String username;
+                String password;
 
-        while(isRunning) {
-            String command = scanner.next();
-            String username;
-            String password;
-
-            switch(command) {
-                case "createUser":
-                    username = scanner.next();
-                    password = scanner.next();
-                    createUser(username, password);
-                    break;
-                case "login":
-                    username = scanner.next();
-                    password = scanner.next();
-                    login(username, password);
-                    break;
+                switch(command) {
+                    case "createUser":
+                        username = scanner.next();
+                        password = scanner.next();
+                        createUser(username, password);
+                        break;
+                    case "login":
+                        username = scanner.next();
+                        password = scanner.next();
+                        login(username, password);
+                        break;
+                    case "disconnect":
+                        isRunning = false;
+                        close();
+                        break;
+                }
             }
+        } catch(RuntimeException e) {
+            System.out.println("Соединение с клиентом было разорвано!");
+            close();
         }
     }
 }

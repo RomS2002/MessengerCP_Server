@@ -23,4 +23,15 @@ public abstract class Connection extends Thread {
     public Socket getSocket() {
         return socket;
     }
+
+    public void close() {
+        try {
+            out.close();
+            in.close();
+            socket.close();
+        } catch(IOException ex) {
+            System.err.println("ERROR: неопределённая ошибка");
+            System.exit(100);
+        }
+    }
 }

@@ -2,7 +2,9 @@ package messages;
 
 import util.Main;
 
-public class MessengerUser {
+import java.io.Serializable;
+
+public class MessengerUser implements Serializable {
 
     private int userID;
 
@@ -38,6 +40,8 @@ public class MessengerUser {
         }
 
         chat = new Chat(userID, uid);
+        Main.chats.add(chat);
+
         return chat;
     }
 

@@ -1,4 +1,4 @@
-package messages;
+package serializable;
 
 import java.io.Serializable;
 
@@ -11,8 +11,7 @@ public class Message implements Serializable {
 
     private String text;
 
-    public Message(int id, String senderName, String receiverName, String text) {
-        this.id = id;
+    public Message(String senderName, String receiverName, String text) {
         this.senderName = senderName;
         this.receiverName = receiverName;
         this.text = text;
@@ -48,5 +47,15 @@ public class Message implements Serializable {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    @Override
+    public String toString() {
+        return "Message{" +
+                "id=" + id +
+                ", senderName='" + senderName + '\'' +
+                ", receiverName='" + receiverName + '\'' +
+                ", text='" + text + '\'' +
+                '}';
     }
 }

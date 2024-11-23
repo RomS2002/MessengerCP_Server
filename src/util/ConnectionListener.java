@@ -10,7 +10,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ConnectionListener extends Thread {
 
-    private final ServerSocket serverSocket;
+    private ServerSocket serverSocket;
     private static final CopyOnWriteArrayList<UnauthorizedConnection> unauthorizedConnections
             = new CopyOnWriteArrayList<>();
     private static final CopyOnWriteArrayList<AuthorizedConnection> authorizedConnections
@@ -24,7 +24,8 @@ public class ConnectionListener extends Thread {
         try {
             serverSocket = new ServerSocket(Main.port);
         } catch(IOException e) {
-            throw new RuntimeException(e);
+            System.err.println("ERROR: Ошибка открытия слушающего сокета");
+            System.exit(100);
         }
 
         clearFinishedConnections = new Timer();
@@ -73,10 +74,10 @@ public class ConnectionListener extends Thread {
     public synchronized void close() {
         isRunning = false;
         for(Connection conn : unauthorizedConnections) {
-            conn.interrupt();
+            conn.close();
         }
         for(Connection conn : authorizedConnections) {
-            conn.interrupt();
+            conn.close();
         }
         try {
             serverSocket.close();
