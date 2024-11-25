@@ -58,12 +58,11 @@ public class AuthorizedConnection extends Connection {
             chat = user.createChatWith(userID);
         }
 
-        List<Message> messages = chat.getMessages();
+        List<Message> messages = new ArrayList<>(chat.getMessages());
 
         try {
             out.writeObject(messages);
             out.flush();
-
         } catch(IOException e) {
             System.err.println("ERROR: Ошибка отправки результата getMessagesInChat");
         }

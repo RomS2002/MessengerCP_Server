@@ -34,12 +34,7 @@ public class MessengerUser implements Serializable {
 
     public Chat createChatWith(int uid) {
 
-        Chat chat = getChatWith(uid);
-        if(chat != null) {
-            return chat;
-        }
-
-        chat = new Chat(userID, uid);
+        Chat chat = new Chat(userID, uid);
         Main.chats.add(chat);
 
         return chat;
