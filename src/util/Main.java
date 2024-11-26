@@ -68,13 +68,14 @@ public class Main {
         try {
             serverConsole.join();
         } catch(InterruptedException e) {
-            throw new RuntimeException(e);
+            System.err.println("ERROR: Непредвиденный Interrupted Exception");
+            serverConsole.interrupt();
         }
 
         try {
             saveToFiles();
         } catch(IOException e) {
-            System.out.println("Ошибка сохранения состояния в файлы!");
+            System.err.println("ERROR: Ошибка сохранения состояния в файлы!");
         }
         connectionListener.close();
     }
