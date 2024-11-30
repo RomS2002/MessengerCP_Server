@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class ServerConsole extends Thread {
 
-    Scanner scanner = new Scanner(System.in);
+    private final Scanner scanner = new Scanner(System.in);
 
     @Override
     public void run() {

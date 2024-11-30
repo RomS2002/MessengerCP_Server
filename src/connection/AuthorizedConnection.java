@@ -111,7 +111,7 @@ public class AuthorizedConnection extends Connection {
         Chat chat = user.getChatWith(toUID);
         if(chat == null) {
             try {
-                out.write("Chat with user don't exists!\n".getBytes(StandardCharsets.UTF_8));
+                out.write("Chat do not exists\n".getBytes(StandardCharsets.UTF_8));
                 out.flush();
             } catch(IOException e) {
                 System.err.println("ERROR: неопределённая ошибка!");

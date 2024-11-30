@@ -17,6 +17,7 @@ public class MessengerUser implements Serializable {
         this.hashedPassword = hashedPassword;
     }
 
+    // Получение чата с пользователем с ID <uid>
     public Chat getChatWith(int uid) {
 
         for(Chat chat : Main.chats) {
@@ -32,6 +33,7 @@ public class MessengerUser implements Serializable {
         return null;
     }
 
+    // Создание чата с пользователем с ID <uid>
     public Chat createChatWith(int uid) {
 
         Chat chat = new Chat(userID, uid);

@@ -21,6 +21,7 @@ public class ConnectionListener extends Thread {
     private boolean isRunning = true;
 
     public ConnectionListener() {
+        // Создание серверного сокета
         try {
             serverSocket = new ServerSocket(Main.port);
         } catch(IOException e) {
@@ -28,7 +29,9 @@ public class ConnectionListener extends Thread {
             System.exit(100);
         }
 
+        // Создание таймера очистки завершённых соединений
         clearFinishedConnections = new Timer();
+        // Планирование задачи очистки завершённых соединений через каждые 300 мс
         clearFinishedConnections.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -59,10 +62,13 @@ public class ConnectionListener extends Thread {
 
             Socket socket;
             try {
+                // Ожидание нового подключения
                 socket = serverSocket.accept();
                 System.out.println("Подключение нового клиента");
+                // Создание объекта соединения и добавление его в список
                 UnauthorizedConnection connection = new UnauthorizedConnection(socket);
                 unauthorizedConnections.add(connection);
+                // Запуск процесса соединения
                 connection.start();
 
             } catch(Exception e) {
@@ -71,6 +77,7 @@ public class ConnectionListener extends Thread {
         }
     }
 
+    // Закрытие всех соединений
     public synchronized void close() {
         isRunning = false;
         for(Connection conn : unauthorizedConnections) {

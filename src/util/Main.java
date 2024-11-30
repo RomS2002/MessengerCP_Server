@@ -50,9 +50,12 @@ public class Main {
     }
 
     public static void main(String[] args) {
+        // Создание и запуск серверной консоли
         ServerConsole serverConsole = new ServerConsole();
         serverConsole.start();
 
+        // Попытка чтения списков пользователей
+        // и чатов из файлов сохранения
         try {
             loadFromFiles();
         } catch(IOException e) {
@@ -62,9 +65,11 @@ public class Main {
             serverConsole.interrupt();
         }
 
+        // Создание и запуск приёмника соединений
         ConnectionListener connectionListener = new ConnectionListener();
         connectionListener.start();
 
+        // Ожидание завершения процесса консоли
         try {
             serverConsole.join();
         } catch(InterruptedException e) {
@@ -72,6 +77,7 @@ public class Main {
             serverConsole.interrupt();
         }
 
+        // Сохранение списков пользователей и чатов в файлы
         try {
             saveToFiles();
         } catch(IOException e) {
